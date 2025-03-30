@@ -1,34 +1,98 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React from 'react'
+import Box from './component/Box'
 import './App.css'
+import Button from './component/Button'
+import { useState, useEffect } from 'react'
 
-function App() {
-  const [count, setCount] = useState(0)
 
+// 박스 2개
+// 박스 안에 이미지(가위바위보) 기본으로
+// 박스 아래 버튼 3개(가위, 바위, 보)
+// 버튼 클릭 시 박스 안에 이미지 변경
+
+
+const selects = {
+  rock: {
+    name: '바위',
+    img: 'https://cdn-icons-png.flaticon.com/512/835/835024.png'
+  },
+  paper: {
+    name: '보',
+    img: 'https://cdn-icons-png.flaticon.com/512/2541/2541988.png'
+  },
+  scissors: {
+    name: '가위',
+    img: 'https://cdn-icons-png.flaticon.com/512/4973/4973989.png'
+  }
+}
+
+
+
+const App = () => {
+
+  const [userSelect, setUserSelect] = useState(null)
+  const [computerSelect, setComputerSelect] = useState(null)
+  const [userResult, setUserResult] = useState('')
+  const [computerResult, setComputerResult] = useState('')
+
+
+  useEffect(() => {
+    if (!userSelect || !computerSelect) return;
+  
+    let result = '';
+  
+    if (userSelect.name === computerSelect.name) {
+      result = '무승부';
+    } else if (
+      userSelect.name === '가위' && computerSelect.name === '보' ||
+      userSelect.name === '보' && computerSelect.name === '바위' ||
+      userSelect.name === '바위' && computerSelect.name === '가위'
+    ) {
+      result = '승리';
+    } else {
+      result = '패배';
+    }
+  
+    setUserResult(result);
+    setComputerResult(
+      result === '승리' ? '패배' :
+      result === '패배' ? '승리' :
+      '무승부'
+    );
+  
+    console.log(userSelect.name, computerSelect.name);
+  }, [userSelect, computerSelect]);
+
+
+
+  const play = (choice) => {
+    const randomKey = ['rock', 'paper', 'scissors'][Math.floor(Math.random() * 3)];
+    setUserSelect(selects[choice]);
+    setComputerSelect(selects[randomKey]);
+  };
+  
+
+
+
+  
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    
+    <div className='main'>
+      {/* 박스 2개 컨테이너너 */}
+      <div className='box-container'>
+        <Box name='You' select={userSelect} result={userResult}/>
+        <h3>VS</h3>
+        <Box name='Computer' select={computerSelect} result={computerResult}/>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+
+      {/* 버튼 3개 컨테이너 */}
+      <div className='button-container'>
+        <Button selectImg={selects.scissors.img} onClick={() => play('scissors')}/>
+        <Button selectImg={selects.rock.img} onClick={() => play('rock')}/>
+        <Button selectImg={selects.paper.img} onClick={() => play('paper')}/>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+    </div>
   )
 }
 
