@@ -3,7 +3,7 @@ import './App.css'
 import Box from './component/Box'
 import Button from './component/Button'
 import Title from './component/Title'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 
 // 박스 2개
@@ -37,39 +37,33 @@ const App = () => {
   const [computerResult, setComputerResult] = useState('가위 바위 보!')
 
 
-  useEffect(() => {
-    if (!userSelect || !computerSelect) return;
-  
+  const play = (choice) => {
+    const randomKey = ['rock', 'paper', 'scissors'][Math.floor(Math.random() * 3)];
+    const userChoice = selects[choice];
+    const computerChoice = selects[randomKey];
+    
+    setUserSelect(userChoice);
+    setComputerSelect(computerChoice);
+
     let result = '';
-  
-    if (userSelect.name === computerSelect.name) {
+    if (userChoice.name === computerChoice.name) {
       result = '무승부';
     } else if (
-      userSelect.name === '가위' && computerSelect.name === '보' ||
-      userSelect.name === '보' && computerSelect.name === '바위' ||
-      userSelect.name === '바위' && computerSelect.name === '가위'
+      userChoice.name === '가위' && computerChoice.name === '보' ||
+      userChoice.name === '보' && computerChoice.name === '바위' ||
+      userChoice.name === '바위' && computerChoice.name === '가위'
     ) {
       result = '승리';
     } else {
       result = '패배';
     }
-  
+
     setUserResult(result);
     setComputerResult(
       result === '승리' ? '패배' :
       result === '패배' ? '승리' :
       '무승부'
     );
-  
-    console.log(userSelect.name, computerSelect.name);
-  }, [userSelect, computerSelect]);
-
-
-
-  const play = (choice) => {
-    const randomKey = ['rock', 'paper', 'scissors'][Math.floor(Math.random() * 3)];
-    setUserSelect(selects[choice]);
-    setComputerSelect(selects[randomKey]);
   };
   
 
