@@ -7,6 +7,24 @@
   height: 100vh;
 }
 
+
+.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.title img {
+  width: 50px;
+  height: 50px;
+}
+
+
+
 .box-container {
   width: 100%;
   padding: 50px;
@@ -66,9 +84,14 @@
 }
 
 .box img {
-  width: 60%;
-  height: 60%;
+  width: 230px;
+  height: 230px;
 }
+
+.box img:not([src]) {
+  opacity: 0;
+}
+
 
 
 

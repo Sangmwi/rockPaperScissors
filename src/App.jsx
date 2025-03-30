@@ -1,7 +1,8 @@
 import React from 'react'
-import Box from './component/Box'
 import './App.css'
+import Box from './component/Box'
 import Button from './component/Button'
+import Title from './component/Title'
 import { useState, useEffect } from 'react'
 
 
@@ -32,8 +33,8 @@ const App = () => {
 
   const [userSelect, setUserSelect] = useState(null)
   const [computerSelect, setComputerSelect] = useState(null)
-  const [userResult, setUserResult] = useState('')
-  const [computerResult, setComputerResult] = useState('')
+  const [userResult, setUserResult] = useState('안내면 진 거,')
+  const [computerResult, setComputerResult] = useState('가위 바위 보!')
 
 
   useEffect(() => {
@@ -78,6 +79,8 @@ const App = () => {
   return (
     
     <div className='main'>
+
+      <Title />
       {/* 박스 2개 컨테이너너 */}
       <div className='box-container'>
         <Box name='You' select={userSelect} result={userResult}/>
